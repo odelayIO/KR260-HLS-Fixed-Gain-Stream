@@ -54,6 +54,7 @@ hls_ip:
 
 build_design:
 	cd ./fpga/top && vivado -mode batch -source build_kr260_hls_fixed_gain_stream.tcl
+	mv ./fpga/top/output . 
 
 check_timing:
 	cd ./fpga/top && vivado -mode batch -source check_$(overlay_name).tcl -notrace
@@ -61,18 +62,21 @@ check_timing:
 #dsa:
 #	vivado -mode batch -source build_$(overlay_name)_dsa.tcl -notrace
 
+start_gui:
+	vivado ./fpga/lib/${design_name}/${overlay_name}.xpr
+
 clean:
 	rm -fr ./fpga/lib/fixed-gain-stream/proj_fixed_gain_stream
 	rm -fr ./fpga/lib/fixed-gain-stream/*.log
 	rm -fr ./fpga/lib/fixed-gain-stream/*.jou
 	cd ./fpga/top && rm -rf $(overlay_name) *.jou *.log NA *.bit *.hwh *.xsa .Xil
 	rm -fr *.log *.jou
-	rm -fr ./fpga/top/output
+	rm -fr ./output
 
 upload:
-	scp ${overlay_name}.bit \
-	${overlay_name}.hwh \
-	${overlay_name}.ipynb ubuntu@kria:/home/root/jupyter_notebooks/kr260_fir_accel
+	scp ./output/${overlay_name}.bit \
+	./output/${overlay_name}.hwh \
+	./host/py/${overlay_name}.ipynb ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream
 
 get_remote_ipynb:
-	scp ubuntu@kria:/home/root/jupyter_notebooks/kr260_fir_accel/${overlay_name}.ipynb .
+	scp ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream/${overlay_name}.ipynb .
