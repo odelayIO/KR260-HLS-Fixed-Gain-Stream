@@ -34,16 +34,13 @@
 //#      2023-04-18    Original Creation
 //#
 //###########################################################################################
-
-
-
-
-
 #include "ap_axi_sdata.h"
 #include "hls_stream.h"
 #define DWIDTH 32
 #define type ap_int<DWIDTH>
+
 typedef hls::axis<type, 0, 0, 0> pkt;
+
 void fixed_gain_stream(hls::stream<pkt> &A, hls::stream<pkt> &B, int gain)
 {
 #pragma HLS INTERFACE axis port=A
@@ -52,7 +49,7 @@ void fixed_gain_stream(hls::stream<pkt> &A, hls::stream<pkt> &B, int gain)
 #pragma HLS INTERFACE s_axilite port=return bundle=CSR_BUS
 
 	pkt tmp;
-    pkt t1;
+  pkt t1;
 	A.read(tmp);
 	t1.data = tmp.data * gain;
 	B.write(t1);

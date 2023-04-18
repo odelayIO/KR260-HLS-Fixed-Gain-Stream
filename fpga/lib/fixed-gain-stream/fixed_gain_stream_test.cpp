@@ -36,19 +36,16 @@
 //#      2023-04-18    Original Creation
 //#
 //###########################################################################################
-
-
-
-
-
 #include "hls_stream.h"
 using namespace std;
 
 #define DWIDTH 32
 #define type ap_int<DWIDTH>
+
 typedef hls::axis<type, 0, 0, 0> pkt;
 
 void fixed_gain_stream(hls::stream<pkt> &A, hls::stream<pkt> &B, int gain);
+
 int main()
 {
   int a_in=101;
