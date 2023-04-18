@@ -63,7 +63,7 @@ check_timing:
 #	vivado -mode batch -source build_$(overlay_name)_dsa.tcl -notrace
 
 start_gui:
-	vivado ./fpga/lib/${design_name}/${overlay_name}.xpr
+	vivado ./fpga/top/${design_name}/${overlay_name}.xpr
 
 clean:
 	rm -fr ./fpga/lib/fixed-gain-stream/proj_fixed_gain_stream
