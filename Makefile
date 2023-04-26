@@ -75,8 +75,8 @@ clean:
 
 upload:
 	scp ./output/${overlay_name}.bit \
-	./output/${overlay_name}.hwh \
-	./host/py/${overlay_name}.ipynb ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream
+	./output/${overlay_name}.hwh ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream
+#	./host/py/${overlay_name}.ipynb 
 
 get_remote_ipynb:
-	scp ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream/${overlay_name}.ipynb .
+	scp ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream/${overlay_name}.ipynb ./host/py/.

@@ -65,7 +65,7 @@ set ::AESL_AUTOSIM::gDebug 1
 # End of directives
 csim_design -clean
 csynth_design
-cosim_design
+cosim_design -trace_level all
 export_design -flow syn -rtl vhdl -format ip_catalog -display_name "axi_fixed_gain_stream" -vendor "odelay.IO" -version "0.1" -library "work" -ipname "axi_fixed_gain_stream"
 
 
