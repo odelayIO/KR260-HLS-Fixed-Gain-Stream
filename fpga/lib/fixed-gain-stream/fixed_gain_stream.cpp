@@ -47,6 +47,7 @@ void fixed_gain_stream(hls::stream<pkt> &A, hls::stream<pkt> &B, int *gain)
 #pragma HLS INTERFACE axis port=B
 #pragma HLS INTERFACE s_axilite register port=gain bundle=CSR_BUS 
 #pragma HLS INTERFACE s_axilite port=return bundle=CSR_BUS
+//#pragma HLS pipeline II=1
 
   static int dout = 0;
 
