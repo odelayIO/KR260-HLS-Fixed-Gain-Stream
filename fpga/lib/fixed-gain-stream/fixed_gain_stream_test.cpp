@@ -44,38 +44,42 @@ using namespace std;
 
 typedef hls::axis<type, 0, 0, 0> pkt;
 
-void fixed_gain_stream(hls::stream<pkt> &A, hls::stream<pkt> &B, int gain);
+void fixed_gain_stream(hls::stream<pkt> &A, hls::stream<pkt> &B, int *gain);
 
 int main()
 {
-  int a_in=101;
-  int gain=23;
+  int a_in=100;
+  int gain=13;
   hls::stream<pkt> A, B;
   pkt tmp1, tmp2;
+  int i=0;
+
   tmp1.data = a_in;
 
-  printf("\n\n\n\n");
-  printf("HLS AXI-Stream Fixed Gain Stream\n");
-  printf("Function b += a * gain\n");
-  printf("Initial values a = %d, gain = %d\n",a_in,gain);
+  printf("\n");
+  printf("HLS AXI-Stream Fixed Gain Stream\n\n");
+  printf("--------\t--------\n");
+  printf("Expected\tHardware\n");
+  printf("--------\t--------\n");
+
+  for (i=0; i<32; i++) 
+  {
+    gain += i;
  
-  A.write(tmp1);
-  fixed_gain_stream(A,B,gain);
-  B.read(tmp2);
-
-  printf("HW Result = %d\n",tmp2.data);
-  printf("\n\n\n\n");
+    A.write(tmp1);
+    fixed_gain_stream(A,B,&gain);
+    B.read(tmp2);
+    printf(" %d\t\t %d\n",a_in*gain, tmp2.data);
 
 
-  if (tmp2.data != a_in*gain)
-  {
-    cout << "ERROR: results mismatch" << endl;
-    return 1;
+    if (tmp2.data != a_in * gain) {
+      printf("ERROR: Result Mismatch");
+      return 1;
+    }
   }
-  else
-  {
-    cout << "Success: results match" << endl;
-    return 0;
-  }
+  printf("\n\n");
+  printf("################################################################\n");
+  printf("######################### Test Passed! #########################\n");
+  printf("################################################################\n\n");
 }
 

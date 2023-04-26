@@ -70,7 +70,7 @@ clean:
 	rm -fr ./fpga/lib/fixed-gain-stream/*.log
 	rm -fr ./fpga/lib/fixed-gain-stream/*.jou
 	cd ./fpga/top && rm -rf $(overlay_name) *.jou *.log NA *.bit *.hwh *.xsa .Xil
-	rm -fr *.log *.jou *.str
+	rm -fr *.log *.jou *.str .Xil
 	rm -fr ./output
 
 upload:

@@ -67,7 +67,8 @@ set_property top ${design_name}_wrapper [current_fileset]
 update_compile_order -fileset sources_1
 
 # call implement
-launch_runs impl_1 -to_step write_bitstream -jobs 4
+# I'm cheap and don't have a computer with enough memory, so only use 1-CPU :(
+launch_runs impl_1 -to_step write_bitstream -jobs 1
 wait_on_run impl_1
 
 # This hardware definition file will be used for microblaze projects

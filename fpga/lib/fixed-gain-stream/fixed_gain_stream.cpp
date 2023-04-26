@@ -41,19 +41,24 @@
 
 typedef hls::axis<type, 0, 0, 0> pkt;
 
-void fixed_gain_stream(hls::stream<pkt> &A, hls::stream<pkt> &B, int gain)
+void fixed_gain_stream(hls::stream<pkt> &A, hls::stream<pkt> &B, int *gain)
 {
 #pragma HLS INTERFACE axis port=A
 #pragma HLS INTERFACE axis port=B
-#pragma HLS INTERFACE s_axilite register port=gain bundle=CSR_BUS
+#pragma HLS INTERFACE s_axilite register port=gain bundle=CSR_BUS 
 #pragma HLS INTERFACE s_axilite port=return bundle=CSR_BUS
+
+  static int dout = 0;
+
+  dout = *gain;
 
   pkt tmp;
   pkt t1;
   A.read(tmp);
-  t1.data = tmp.data * gain;
+  t1.data = tmp.data * dout;
   t1.keep = tmp.keep;
   t1.strb = tmp.strb;
   t1.last = tmp.last;
   B.write(t1);
+  *gain = dout;
 }
