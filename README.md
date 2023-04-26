@@ -2,6 +2,6 @@
 
 TODO:
 
-- [ ] Update the Jupyter Notes Script
-- [ ] Verify the design on the KR260 hardware
+- [x] Update the Jupyter Notes Script
+- [x] Verify the design on the KR260 hardware
 - [ ] Document Project 
