@@ -51,6 +51,9 @@ set_property default_lib work [current_project]
 set_property  ip_repo_paths  ../lib [current_project]
 update_ip_catalog
 
+# Add VHDL File(s)
+add_files -norecurse ../lib/led_reg/hw/led_reg.vhd
+
 # source the board design
 source ./kr260_hls_fixed_gain_stream_bd.tcl
 
@@ -66,6 +69,8 @@ set_property top ${design_name}_wrapper [current_fileset]
 
 # Add XDC File(s)
 import_files -fileset constrs_1 -norecurse ./leds_pinout.xdc
+
+
 
 update_compile_order -fileset sources_1
 

@@ -32,3 +32,17 @@ pl_clk0 = 99.999001MHz
 
 pl_clk1 = 299.997009MHz
 
+
+
+
+
+## Installing Corsair
+
+```bash
+./run-vivado-2022p1.sh
+su root
+apt install python3-pip
+pip3 install gitpython
+python3 -m pip install -U corsair
+```
+
