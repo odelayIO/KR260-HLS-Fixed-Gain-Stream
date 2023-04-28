@@ -63,7 +63,7 @@ open_bd_design ./${overlay_name}/${overlay_name}.srcs/sources_1/bd/${design_name
 make_wrapper -files [get_files ./${overlay_name}/${overlay_name}.srcs/sources_1/bd/${design_name}/${design_name}.bd] -top
 add_files -norecurse ./${overlay_name}/${overlay_name}.gen/sources_1/bd/${design_name}/hdl/${design_name}_wrapper.vhd
 set_property top ${design_name}_wrapper [current_fileset]
-#import_files -fileset constrs_1 -norecurse ./${overlay_name}.xdc
+import_files -fileset constrs_1 -norecurse ../xdc/leds_pinout.xdc
 update_compile_order -fileset sources_1
 
 # call implement
