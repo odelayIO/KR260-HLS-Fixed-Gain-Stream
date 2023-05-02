@@ -46,3 +46,30 @@ pip3 install gitpython
 python3 -m pip install -U corsair
 ```
 
+
+
+
+
+## PYNQ MMIO Access
+
+```python
+import pynq
+import Reg_Constants_Pkg as _REG
+
+#	Contents of Reg_Constants_Pkg.py
+#
+#	BASE 		= 0x00_A000_0000
+#	OFFSET		= 0xA000
+
+pynq.mmio.MMIO(_REG.BASE + _REG.OFFSET)
+
+
+
+import pynq
+
+_BASE = 0x00_A002_0000
+_LED_REG = 0x10 + _BASE
+
+pynq.mmio.MMIO(_LED_REG).read()
+```
+

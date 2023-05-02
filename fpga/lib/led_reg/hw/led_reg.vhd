@@ -8,7 +8,7 @@ use ieee.numeric_std.all;
 
 entity led_reg is
 generic(
-    ADDR_W : integer := 8;
+    ADDR_W : integer := 16;
     DATA_W : integer := 32;
     STRB_W : integer := 4
 );
