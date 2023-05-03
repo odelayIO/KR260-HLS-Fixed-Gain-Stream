@@ -73,7 +73,7 @@ clean:
 	rm -fr *.log *.jou *.str .Xil
 	rm -fr ./output
 
-upload_all: upload_bit upload_regmaps
+upload_all: upload_bit upload_regmaps upload_ipynb
 
 upload_bit:
 	scp ./output/${overlay_name}.bit \
