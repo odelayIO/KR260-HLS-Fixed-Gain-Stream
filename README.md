@@ -34,6 +34,12 @@ pl_clk1 = 299.997009MHz
 
 
 
+## Quick Start
+
+```bash
+git clone --recursive git@github.com:odelayIO/KR260-HLS-Fixed-Gain-Stream.git
+```
+
 
 
 ## Installing Corsair
@@ -96,5 +102,17 @@ for i in range(len(input_data)):
     mmio.write(OUTPUT_DATA_OFFSET + i * 4, input_data[i] + 1)
 
 mmio.write(ACK_OFFSET, 1)
+```
+
+
+
+## Add Submodule to repository
+
+```
+git submodule add https://github.com/odelayIO/corsair-reg-map/ corsair-reg-map
+cd corsair-reg-map/
+git checkout v0.1
+cd ..
+git add .gitmodules corsair-reg-map
 ```
 

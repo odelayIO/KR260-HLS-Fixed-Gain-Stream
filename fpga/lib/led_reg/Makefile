@@ -1,4 +1,4 @@
-export PYTHONPATH := /home/sdr/kr260-workspace/develop-fpga/corsair-reg-map/.:$(PYTHONPATH)
+export PYTHONPATH := ../../../corsair-reg-map/.:$(PYTHONPATH)
 
 all: clean build
 
