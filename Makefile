@@ -41,7 +41,7 @@
 overlay_name := kr260_hls_fixed_gain_stream
 design_name := kr260_hls_fixed_gain_stream
 
-all: clean hls_ip build_design check_timing
+all: clean hls_ip reg_if build_design check_timing
 	@echo
 	@tput setaf 2 ; echo "Built $(overlay_name) successfully!"; tput sgr0;
 	@echo
@@ -51,6 +51,9 @@ all: clean hls_ip build_design check_timing
 
 hls_ip:
 	cd ./fpga/lib/fixed-gain-stream && vitis_hls -f run_hls.tcl && pwd
+
+reg_if:
+	cd ./fpga/lib/led_reg && make && pwd
 
 build_design:
 	cd ./fpga/top && vivado -mode batch -source build_kr260_hls_fixed_gain_stream.tcl
