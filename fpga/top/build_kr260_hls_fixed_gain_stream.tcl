@@ -40,7 +40,7 @@ set overlay_name "kr260_hls_fixed_gain_stream"
 set design_name "kr260_hls_fixed_gain_stream"
 
 # Create Project
-set_param board.repoPaths {/home/sdr/kr260-workspace/XilinxBoardStore}
+set_param board.repoPaths {../../XilinxBoardStore}
 create_project kr260_hls_fixed_gain_stream kr260_hls_fixed_gain_stream -part xck26-sfvc784-2LV-c
 set_property BOARD_PART xilinx.com:kr260_som:part0:1.0 [current_project]
 set_property target_language VHDL [current_project]
