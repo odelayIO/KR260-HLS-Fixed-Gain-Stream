@@ -48,6 +48,16 @@ python3 -m pip install -U corsair
 
 
 
+## Run Corsair from Source
+
+```bash
+git clone git@github.com:odelayIO/corsair-reg-map.git /tools/corsair-reg-map
+export PYTHONPATH := /tools/corsair-reg-map/.:$(PYTHONPATH)
+pip3 install pyyaml
+pip3 install Jinja2
+pip3 install wavedrom 
+```
+
 
 
 ## PYNQ MMIO Access
@@ -71,5 +81,20 @@ _BASE = 0x00_A002_0000
 _LED_REG = 0x10 + _BASE
 
 pynq.mmio.MMIO(_LED_REG).read()
+```
+
+
+
+
+
+```
+from pynq import MMIO
+       
+mmio = MMIO(BASE_ADDRESS, ADDRESS_LENGTH)
+
+for i in range(len(input_data)):
+    mmio.write(OUTPUT_DATA_OFFSET + i * 4, input_data[i] + 1)
+
+mmio.write(ACK_OFFSET, 1)
 ```
 

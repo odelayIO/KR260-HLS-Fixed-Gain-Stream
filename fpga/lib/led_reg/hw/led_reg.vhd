@@ -1,7 +1,6 @@
 
 
-
--- Created with Corsair v1.0.4
+-- Created with Corsair vgit-latest
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -43,6 +42,7 @@ port(
 end entity;
 
 architecture rtl of led_reg is
+subtype ADDR_T is std_logic_vector(15 downto 0);
 
 signal wready : std_logic;
 signal waddr  : std_logic_vector(ADDR_W-1 downto 0);
@@ -165,9 +165,9 @@ end process;
 --------------------------------------------------------------------------------
 csr_user_leds_rdata(31 downto 2) <= (others => '0');
 
-csr_user_leds_wen <= wen when (waddr = std_logic_vector(to_unsigned(16, ADDR_W))) else '0'; -- 0x10
+csr_user_leds_wen <= wen when (waddr = "0000000000010000") else '0'; -- 0x10
 
-csr_user_leds_ren <= ren when (raddr = std_logic_vector(to_unsigned(16, ADDR_W))) else '0'; -- 0x10
+csr_user_leds_ren <= ren when (raddr = "0000000000010000") else '0'; -- 0x10
 process (clk) begin
 if rising_edge(clk) then
 if (rst = '1') then
@@ -220,11 +220,10 @@ if (rst = '1') then
     rdata_ff <= "00000000000000000000000000000000"; -- 0x0
 else
     if (ren = '1') then
-        if raddr = std_logic_vector(to_unsigned(16, ADDR_W)) then -- 0x10
-            rdata_ff <= csr_user_leds_rdata;
-        else 
-            rdata_ff <= "00000000000000000000000000000000"; -- 0x0
-        end if;
+        case ADDR_T'(raddr) is
+            when "0000000000010000" => rdata_ff <= csr_user_leds_rdata; -- 0x10
+            when others => rdata_ff <= "00000000000000000000000000000000"; -- 0x0
+        end case;
     else
         rdata_ff <= "00000000000000000000000000000000"; -- 0x0
     end if;

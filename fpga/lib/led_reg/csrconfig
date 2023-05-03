@@ -14,8 +14,13 @@ read_filler = 0
 interface = axil
 generator = Vhdl
 
+[vhdl_header]
+path = hw/led_pkg.vhd
+prefix = CSR
+generator = VhdlHeader
+
 [py]
-path = sw/led_reg.py
+path = sw/led_regmap.py
 generator = Python
 
 [md_doc]

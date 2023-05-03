@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" Created with Corsair v1.0.4
+""" Created with Corsair vgit-latest
 
 Control/status register map.
 """

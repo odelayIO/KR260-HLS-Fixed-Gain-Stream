@@ -73,12 +73,20 @@ clean:
 	rm -fr *.log *.jou *.str .Xil
 	rm -fr ./output
 
-upload:
+upload_all: upload_bit upload_regmaps
+
+upload_bit:
 	scp ./output/${overlay_name}.bit \
 	./output/${overlay_name}.hwh \
-	./fpga/lib/led_reg/sw/led_reg.py \
 	ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream
-#	./host/py/${overlay_name}.ipynb 
+
+upload_ipynb:
+	scp ./host/py/${overlay_name}.ipynb \
+	ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream
+
+upload_regmaps:
+	scp ./fpga/lib/led_reg/sw/led_regmap.py \
+	ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream
 
 get_remote_ipynb:
 	scp ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream/${overlay_name}.ipynb ./host/py/.
