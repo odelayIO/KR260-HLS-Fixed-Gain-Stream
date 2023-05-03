@@ -1,0 +1,3 @@
+[submodule "corsair-reg-map"]
+	path = corsair-reg-map
+	url = https://github.com/odelayIO/corsair-reg-map/
