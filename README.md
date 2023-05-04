@@ -56,7 +56,7 @@ This project utilizes Corsair to generate the AXI-Lite file register to generate
 
 
 
-### Add Submodule to repository
+## Add Submodule to repository
 
 ```
 git submodule add https://github.com/odelayIO/corsair-reg-map/ corsair-reg-map
@@ -68,7 +68,7 @@ git add .gitmodules corsair-reg-map
 
 
 
-### Increase System Swap Memory
+## Increase System Swap Memory
 
 Vivado requests a lot of memory to build FPGAs.  In my case the Vivado build crashed when I set the CPU job to 8 cores.  I have 2GB swap, which I want to increase to 12GB
 
@@ -84,7 +84,7 @@ sudo free -h
 
 
 
-### Set timezone on KR260 board
+## Set timezone on KR260 board
 
 ```bash
 sudo timedatectl set-timezone America/Los_Angeles
@@ -92,7 +92,7 @@ sudo timedatectl set-timezone America/Los_Angeles
 
 
 
-### Install `gtkwave`
+## Install `gtkwave`
 
 This will be helpful to view the VCD trace dump from the HLS simulation.  This is installed in the [vivado2022.1_docker](https://github.com/odelayIO/vivado2022.1_docker).
 
