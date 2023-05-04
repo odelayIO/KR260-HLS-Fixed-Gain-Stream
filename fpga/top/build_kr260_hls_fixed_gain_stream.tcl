@@ -32,58 +32,101 @@
 #       Date        Description
 #     -----------   -----------------------------------------------------------------------
 #      2023-04-18    Original Creation
+#      2023-05-04    Clean up and added report generation statements
 #
 ###########################################################################################
 
 
-set overlay_name "kr260_hls_fixed_gain_stream"
-set design_name "kr260_hls_fixed_gain_stream"
+#----------------------------------------------------------------------------
+#   System Variables
+#----------------------------------------------------------------------------
+set OVERLAY_NAME "kr260_hls_fixed_gain_stream"
+set DESIGN_NAME "kr260_hls_fixed_gain_stream"
+set BOARD_DESIGN "kr260_hls_fixed_gain_stream_bd.tcl"
+set SPEW_DIR "./output"
+set REPORTS "./output/Reports"
+set DEVICE "xck26-sfvc784-2LV-c"
 
-# Create Project
+
+#----------------------------------------------------------------------------
+#   Create Project
+#----------------------------------------------------------------------------
 set_param board.repoPaths {../../XilinxBoardStore}
-create_project kr260_hls_fixed_gain_stream kr260_hls_fixed_gain_stream -part xck26-sfvc784-2LV-c
+create_project ${OVERLAY_NAME} ${DESIGN_NAME} -part ${DEVICE}
 set_property BOARD_PART xilinx.com:kr260_som:part0:1.0 [current_project]
 set_property target_language VHDL [current_project]
 set_property default_lib work [current_project]
 
 
-# Adding Library to project
+#----------------------------------------------------------------------------
+#   Adding Library to project
+#----------------------------------------------------------------------------
 set_property  ip_repo_paths  ../lib [current_project]
 update_ip_catalog
 
-# Add VHDL File(s)
+
+#----------------------------------------------------------------------------
+#   Add VHDL File(s)
+#----------------------------------------------------------------------------
 add_files -norecurse ../lib/led_reg/hw/led_reg.vhd
 
-# source the board design
-source ./kr260_hls_fixed_gain_stream_bd.tcl
+
+#----------------------------------------------------------------------------
+#   Source the board design
+#----------------------------------------------------------------------------
+source ${BOARD_DESIGN}
 
 
-# open block design
-#open_project ./${overlay_name}/${overlay_name}.xpr
-open_bd_design ./${overlay_name}/${overlay_name}.srcs/sources_1/bd/${design_name}/${design_name}.bd
+#----------------------------------------------------------------------------
+#   open block design
+#----------------------------------------------------------------------------
+open_bd_design ./${OVERLAY_NAME}/${OVERLAY_NAME}.srcs/sources_1/bd/${DESIGN_NAME}/${DESIGN_NAME}.bd
 
-# Add top wrapper and xdc files
-make_wrapper -files [get_files ./${overlay_name}/${overlay_name}.srcs/sources_1/bd/${design_name}/${design_name}.bd] -top
-add_files -norecurse ./${overlay_name}/${overlay_name}.gen/sources_1/bd/${design_name}/hdl/${design_name}_wrapper.vhd
-set_property top ${design_name}_wrapper [current_fileset]
 
-# Add XDC File(s)
+#----------------------------------------------------------------------------
+#   Add top wrapper and xdc files
+#----------------------------------------------------------------------------
+make_wrapper -files [get_files ./${OVERLAY_NAME}/${OVERLAY_NAME}.srcs/sources_1/bd/${DESIGN_NAME}/${DESIGN_NAME}.bd] -top
+add_files -norecurse ./${OVERLAY_NAME}/${OVERLAY_NAME}.gen/sources_1/bd/${DESIGN_NAME}/hdl/${DESIGN_NAME}_wrapper.vhd
+set_property top ${DESIGN_NAME}_wrapper [current_fileset]
+
+
+#----------------------------------------------------------------------------
+#   Add XDC File(s)
+#----------------------------------------------------------------------------
 import_files -fileset constrs_1 -norecurse ./leds_pinout.xdc
-
-
-
 update_compile_order -fileset sources_1
 
-# call implement
-# I'm cheap and don't have a computer with enough memory, so only use 1-CPU :(
-launch_runs impl_1 -to_step write_bitstream -jobs 1
+
+#----------------------------------------------------------------------------
+#   NOTE: You'll need to increase SWAP file size to 16GB to use 8 Processors
+#----------------------------------------------------------------------------
+launch_runs impl_1 -to_step write_bitstream -jobs 8
 wait_on_run impl_1
 
-# This hardware definition file will be used for microblaze projects
-write_hw_platform -fixed -include_bit -force -file ./${overlay_name}.xsa
-validate_hw_platform ./${overlay_name}.xsa
 
-# copy and rename bitstream to final location
-exec mkdir output
-file copy -force ./${overlay_name}/${overlay_name}.runs/impl_1/${design_name}_wrapper.bit ./output/${overlay_name}.bit
-file copy -force ./${overlay_name}/${overlay_name}.gen/sources_1/bd/${design_name}/hw_handoff/${design_name}.hwh ./output/${overlay_name}.hwh
+#----------------------------------------------------------------------------
+#   Generate Build Reports
+#----------------------------------------------------------------------------
+open_run impl_1
+report_timing_summary -file ${REPORTS}/post_route_timing_summary.rpt
+report_timing -sort_by group -max_paths 100 -path_type summary -file ${REPORTS}/post_route_timing.rpt
+report_clock_utilization -file ${REPORTS}/clock_util.rpt
+report_utilization -hierarchical_percentages -hierarchical -file ${REPORTS}/post_route_util.rpt
+report_power -file ${REPORTS}/post_route_power.rpt
+report_drc -file ${REPORTS}/post_imp_drc.rpt
+report_datasheet -file ${REPORTS}/post_imp_datasheet.rpt
+
+
+#----------------------------------------------------------------------------
+#   This hardware definition file will be used for microblaze projects
+#----------------------------------------------------------------------------
+write_hw_platform -fixed -include_bit -force -file ./${OVERLAY_NAME}.xsa
+validate_hw_platform ./${OVERLAY_NAME}.xsa
+
+
+#----------------------------------------------------------------------------
+#   Copy and rename bitstream to final location
+#----------------------------------------------------------------------------
+file copy -force ./${OVERLAY_NAME}/${OVERLAY_NAME}.runs/impl_1/${DESIGN_NAME}_wrapper.bit ${SPEW_DIR}/${OVERLAY_NAME}.bit
+file copy -force ./${OVERLAY_NAME}/${OVERLAY_NAME}.gen/sources_1/bd/${DESIGN_NAME}/hw_handoff/${DESIGN_NAME}.hwh ${SPEW_DIR}/${OVERLAY_NAME}.hwh
