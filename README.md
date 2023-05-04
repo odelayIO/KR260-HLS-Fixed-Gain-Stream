@@ -1,6 +1,7 @@
 # KR260-HLS-Fixed-Gain-Stream
-
-![](./doc/kriapynq.png])
+<p align="center">
+  <img src="./doc/kriapynq.png">
+</p>
 
 
 
