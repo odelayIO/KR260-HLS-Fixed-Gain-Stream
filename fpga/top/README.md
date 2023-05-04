@@ -1,3 +1,3 @@
 # KR260-HLS-Fixed-Gain-Stream
 
-TODO: Document Project :/
+Build scripts targeting the KR260 board.
