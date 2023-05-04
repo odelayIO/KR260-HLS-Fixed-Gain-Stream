@@ -116,3 +116,21 @@ cd ..
 git add .gitmodules corsair-reg-map
 ```
 
+
+
+
+
+## Increase System Swap Memory
+
+Vivado requests a lot of memory to build FPGAs.  In my case the Vivado build crashed when I set the CPU job to 8 cores.  I have 2GB swap, which I want to increase to 12GB
+
+```
+swapon --show
+sudo sudo swapoff -a
+sudo dd if=/dev/zero of=/swapfile bs=1M count=16384
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+sudo free -h
+```
+

@@ -38,12 +38,12 @@
 
 
 
-overlay_name := kr260_hls_fixed_gain_stream
-design_name := kr260_hls_fixed_gain_stream
+OVERLAY_NAME := kr260_hls_fixed_gain_stream
+DESIGN_NAME := kr260_hls_fixed_gain_stream
 
-all: clean hls_ip reg_if build_design check_timing
+all: clean_all hls_ip reg_if build_design check_timing
 	@echo
-	@tput setaf 2 ; echo "Built $(overlay_name) successfully!"; tput sgr0;
+	@tput setaf 2 ; echo "Built $(OVERLAY_NAME) successfully!"; tput sgr0;
 	@echo
 
 #source_vivado:
@@ -56,35 +56,43 @@ reg_if:
 	cd ./fpga/lib/led_reg && make && pwd
 
 build_design:
+	mkdir -p ./fpga/top/output/Reports
 	cd ./fpga/top && vivado -mode batch -source build_kr260_hls_fixed_gain_stream.tcl
 	mv ./fpga/top/output . 
 
 check_timing:
-	cd ./fpga/top && vivado -mode batch -source check_$(overlay_name).tcl -notrace
+	cd ./fpga/top && vivado -mode batch -source check_$(OVERLAY_NAME).tcl -notrace
 
 #dsa:
-#	vivado -mode batch -source build_$(overlay_name)_dsa.tcl -notrace
+#	vivado -mode batch -source build_$(OVERLAY_NAME)_dsa.tcl -notrace
 
 start_gui:
-	vivado ./fpga/top/${design_name}/${overlay_name}.xpr
+	vivado ./fpga/top/${DESIGN_NAME}/${OVERLAY_NAME}.xpr
 
-clean:
+clean_all:
 	rm -fr ./fpga/lib/fixed-gain-stream/proj_fixed_gain_stream
 	rm -fr ./fpga/lib/fixed-gain-stream/*.log
 	rm -fr ./fpga/lib/fixed-gain-stream/*.jou
-	cd ./fpga/top && rm -rf $(overlay_name) *.jou *.log NA *.bit *.hwh *.xsa .Xil
+	cd ./fpga/top && rm -rf $(OVERLAY_NAME) *.jou *.log NA *.bit *.hwh *.xsa .Xil
 	rm -fr *.log *.jou *.str .Xil
 	rm -fr ./output
+	rm -fr ./fpga/top/output
+
+clean:
+	cd ./fpga/top && rm -rf $(OVERLAY_NAME) *.jou *.log NA *.bit *.hwh *.xsa .Xil
+	rm -fr *.log *.jou *.str .Xil
+	rm -fr ./output
+	rm -fr ./fpga/top/output
 
 upload_all: upload_bit upload_regmaps upload_ipynb
 
 upload_bit:
-	scp ./output/${overlay_name}.bit \
-	./output/${overlay_name}.hwh \
+	scp ./output/${OVERLAY_NAME}.bit \
+	./output/${OVERLAY_NAME}.hwh \
 	ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream
 
 upload_ipynb:
-	scp ./host/py/${overlay_name}.ipynb \
+	scp ./host/py/${OVERLAY_NAME}.ipynb \
 	ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream
 
 upload_regmaps:
@@ -92,4 +100,4 @@ upload_regmaps:
 	ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream
 
 get_remote_ipynb:
-	scp ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream/${overlay_name}.ipynb ./host/py/.
+	scp ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream/${OVERLAY_NAME}.ipynb ./host/py/.
