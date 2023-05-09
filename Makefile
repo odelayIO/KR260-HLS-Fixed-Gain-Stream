@@ -59,6 +59,7 @@ hls_ip:
 reg_if:  		
 ## reg_if: Builds only the Corsair Register File Modules
 	cd ./fpga/lib/led_reg && make && pwd
+	cd ./fpga/lib/timestamp && make && pwd
 
 build_design: clean 
 ## build_design: Builds the Vivado project without regenerating Lib
@@ -79,6 +80,8 @@ clean_all:
 	rm -fr ./fpga/lib/fixed-gain-stream/proj_fixed_gain_stream
 	rm -fr ./fpga/lib/fixed-gain-stream/*.log
 	rm -fr ./fpga/lib/fixed-gain-stream/*.jou
+	cd ./fpga/lib/timestamp && make clean && pwd
+	cd ./fpga/lib/led_reg && make clean && pwd
 	cd ./fpga/top && rm -rf $(OVERLAY_NAME) *.jou *.log NA *.bit *.hwh *.xsa .Xil
 	rm -fr *.log *.jou *.str .Xil
 	rm -fr ./output
