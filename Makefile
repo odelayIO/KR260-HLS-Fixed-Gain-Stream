@@ -59,6 +59,7 @@ hls_ip:
 reg_if:  		
 ## reg_if: Builds only the Corsair Register File Modules
 	cd ./fpga/lib/led_reg && make && pwd
+	cd ./fpga/lib/timestamp && make && pwd
 
 build_design: clean 
 ## build_design: Builds the Vivado project without regenerating Lib
@@ -79,6 +80,8 @@ clean_all:
 	rm -fr ./fpga/lib/fixed-gain-stream/proj_fixed_gain_stream
 	rm -fr ./fpga/lib/fixed-gain-stream/*.log
 	rm -fr ./fpga/lib/fixed-gain-stream/*.jou
+	cd ./fpga/lib/timestamp && make clean && pwd
+	cd ./fpga/lib/led_reg && make clean && pwd
 	cd ./fpga/top && rm -rf $(OVERLAY_NAME) *.jou *.log NA *.bit *.hwh *.xsa .Xil
 	rm -fr *.log *.jou *.str .Xil
 	rm -fr ./output
@@ -91,7 +94,7 @@ clean:
 	rm -fr ./output
 	rm -fr ./fpga/top/output
 
-upload_all: upload_bit upload_regmaps upload_ipynb  
+upload_all: upload_bit upload_regmaps upload_ipynb upload_kria_driver
 ## upload_all: Upload image to KR260 board
 
 upload_bit:		
@@ -108,8 +111,18 @@ upload_ipynb:
 upload_regmaps: 		
 ## upload_regmaps: Uploads the Corsair Register Map Python Classes
 	scp ./fpga/lib/led_reg/sw/led_regmap.py \
+	./fpga/lib/timestamp/sw/timestamp_regmap.py \
 	ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream
 
 get_remote_ipynb:		
 ## get_remote_ipynb: Copy the Jupyter Notebook from KR260 to host
 	scp ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream/${OVERLAY_NAME}.ipynb ./host/py/.
+
+get_remote_py_driver:
+## get_remote_kria_driver: Copy Kria Python Driver from KR260
+	scp ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream/kria.py ./host/py/.
+
+upload_kria_driver:
+## upload_kria_driver: Copy Kria Python Driver to KR260
+	scp ./host/py/kria.py \
+	ubuntu@kria:/home/root/jupyter_notebooks/kr260_hls_fixed_gain_stream
