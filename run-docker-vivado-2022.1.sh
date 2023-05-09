@@ -71,6 +71,8 @@ done
 #-------------------------------------------------------------------------------
 docker run -it --rm \
   --net host \
+  -v /etc/timezone:/etc/timezone:ro \
+  -v /etc/localtime:/etc/localtime:ro \
   -e LOCAL_UID=$(id -u ${USER}) \
   -e LOCAL_GID=$(id -g ${USER}) \
   -e USER=${USER} \

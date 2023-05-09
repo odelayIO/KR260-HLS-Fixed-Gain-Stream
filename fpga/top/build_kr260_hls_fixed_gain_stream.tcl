@@ -69,6 +69,9 @@ update_ip_catalog
 #   Add VHDL File(s)
 #----------------------------------------------------------------------------
 add_files -norecurse ../lib/led_reg/hw/led_reg.vhd
+add_files -norecurse ../lib/timestamp/hw/timestamp_reg.vhd
+add_files -norecurse ../lib/timestamp/Timestamp_Pkg.vhd
+add_files -norecurse ../lib/timestamp/Timestamp.vhd
 
 
 #----------------------------------------------------------------------------
