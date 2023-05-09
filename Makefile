@@ -94,7 +94,7 @@ clean:
 	rm -fr ./output
 	rm -fr ./fpga/top/output
 
-upload_all: upload_bit upload_regmaps upload_ipynb  
+upload_all: upload_bit upload_regmaps upload_ipynb upload_kria_driver
 ## upload_all: Upload image to KR260 board
 
 upload_bit:		
