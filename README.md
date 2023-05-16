@@ -6,8 +6,15 @@
 
 
 
+## Overview
 
-## Quick Start
+This design targets the [Xilinx Kria KR260 starter kit](https://www.xilinx.com/products/som/kria/kr260-robotics-starter-kit.html) with [Kria-PYNQ framework](https://github.com/Xilinx/Kria-PYNQ).  It implements a configurable AXI-Stream gain block using Vitis HLS.  In addition, this design utlizes [Corsair](https://github.com/odelayIO/corsair-reg-map/tree/b59d100e01f0f7f7dbdeb8154418169900fc06a0) AXI-Lite register generation.  Two modules use [Corsair](https://github.com/odelayIO/corsair-reg-map/tree/b59d100e01f0f7f7dbdeb8154418169900fc06a0) to control the 2 User LEDs and to read the FPGA time-stamp register (its a register that contains the time in which the FPGA was built). See the [Jupyter Notebook](https://github.com/odelayIO/KR260-HLS-Fixed-Gain-Stream/blob/main/host/py/kr260_hls_fixed_gain_stream.ipynb) in the repository.
+
+The Makefile at the base of the repository has a help menu.  Just type `make help` to see a list of actions.
+
+
+
+## Getting Started
 
 It is assumed you have built the [vivado2022.1_docker](https://github.com/odelayIO/vivado2022.1_docker) container on the host machine.  In addition, the KR260 board has the PYNQ framework install on board.  Please follow the directions on the [Xilinx Kria-PYNQ](https://github.com/Xilinx/Kria-PYNQ) for instructions to create the KR260 SD card image and install PYNQ framework on the KR260. 
 
